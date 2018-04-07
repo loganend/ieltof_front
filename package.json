@@ -44,6 +44,7 @@
     "url-loader": "^1.0.1"
   },
   "scripts": {
+    "build": "webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server  --watch --content-base dist --inline --hot",
     "stop": "python kill.py"

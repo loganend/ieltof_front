@@ -3,20 +3,17 @@ let path = require('path');
 
 let debug = process.env.NODE_ENV !== "development";
 
-
 module.exports = {
-    context: path.join(__dirname, ""),
     devtool: debug ? "inline-sourcemap" : null,
     entry: [
-        'react-hot-loader/patch',
-        './src/index.js'
+        path.resolve(__dirname + '/src/index.js'),
     ],
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: ['babel-loader']
+                test: /\.(js|jsx)?$/,
+                exclude: /(node_modules)/,
+                loader: 'babel-loader',
             },
             {
                 test: /\.(less|css)$/,
@@ -63,11 +60,10 @@ module.exports = {
         },
         extensions: ['*', '.js', '.jsx', 'css', 'png']
     },
-
     output: {
-        path: __dirname + '/dist',
+        path: path.resolve(__dirname + 'dist'),
         publicPath: '/',
-        filename: 'bundle.js'
+        filename: 'bundle.min.js'
     },
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),
