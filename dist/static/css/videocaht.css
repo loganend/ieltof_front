@@ -48,6 +48,7 @@ h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,cite,code,del,dfn,em,i
 }
 
 .video-1{
+    position: relative;
     margin:0;
     padding:0;
     width: 100%;
@@ -79,3 +80,29 @@ h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,cite,code,del,dfn,em,i
 }
 
 
+.conversation-container > .header {
+    background-color: #2d90c1;
+}
+
+.widget-container > .launcher {
+    background-color: #2d90c1;
+}
+
+.widget-container {
+    position: absolute;
+    right: 70px;
+    transform: translate(-70px, -0%);
+}
+
+@media screen and (max-width: 1230px) {
+    .widget-container {
+        position: absolute;
+        right: 10px;
+        transform: translate(-10px, -0%);
+    }
+}
+
+/*.message > .response {*/
+    /*background-color: black;*/
+    /*color: white;*/
+/*}*/

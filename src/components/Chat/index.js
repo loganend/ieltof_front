@@ -50,6 +50,8 @@ export default class Chat extends React.Component {
         return (
             <Widget
                 handleNewUserMessage={this.handleNewUserMessage}
+                title=""
+                subtitle=""
             />
         )
     }

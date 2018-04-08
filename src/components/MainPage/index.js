@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-
-import styles from './MainPage.css';
-import world from 'images/world.jpg'
-import cool from 'images/cool.jpg';
-import arrow from 'images/arrow.png';
-import classNames from 'classnames';
+import React, {Component} from "react";
+import styles from "./MainPage.css";
+import world from "images/world.jpg";
+import cool from "images/cool.jpg";
+import arrow from "images/arrow.png";
+import classNames from "classnames";
+import * as MainActions from "../../services/MainActions";
 
 export default class MainPage extends React.Component {
 
@@ -105,13 +105,14 @@ export default class MainPage extends React.Component {
                         <div class="modal-content">
                             <div className={classNames({"container": true, [styles.popup_exam_container]: true})}>
                                 <div className="row">
-                                    <div onClick={this.onFaceExam}
-                                         className={classNames({"col-sm-12": true, [styles.popup_exam_header]: true})}>
+                                    <div
+                                        className={classNames({"col-sm-12": true, [styles.popup_exam_header]: true})}>
                                         <h2>Choose the type of test</h2>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className={classNames({"col-sm-6": true, [styles.popup_exam_type]: true})}>
+                                    <div onClick={this.onFaceExam} data-dismiss="modal"
+                                         className={classNames({"col-sm-6": true, [styles.popup_exam_type]: true})}>
                                         <h2>Face-to-face<br/>IELTS</h2>
                                     </div>
                                     <div className={classNames({"col-sm-6": true, [styles.popup_exam_type]: true})}>
@@ -127,7 +128,7 @@ export default class MainPage extends React.Component {
     }
 
     onFaceExam() {
-
+        MainActions.faceToFaceTest();
     }
 }
 

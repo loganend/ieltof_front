@@ -1,9 +1,12 @@
 import React, {Component} from "react";
-import Peer from "peerjs";
+import Peer, {DataConnection} from "peerjs";
 import Chat from "components/Chat";
+import QuestionBlock from "components/QuestionBlock";
 import * as TestServices from "../../services/TestServices";
 import styles from "./TestPage.css";
 import classNames from "classnames";
+import PreloaderIcon from "react-preloader-icon";
+import Oval from "react-preloader-icon/loaders/Oval";
 
 export default class TestPage extends React.Component {
 
@@ -16,10 +19,10 @@ export default class TestPage extends React.Component {
             conn: null,
             call: null,
             peer: new Peer({
-                host: "cheremisin.info",
+                host: "localhost",
                 port: 9000,
                 path: '/peerjs',
-                secure: true,
+                secure: false,
                 config: {
                     'iceServers': [
                         {url: 'stun:stun1.l.google.com:19302'},
@@ -33,7 +36,7 @@ export default class TestPage extends React.Component {
             })
         };
 
-        this.socket = new WebSocket("wss://cheremisin.info/api/v1/client");
+        this.socket = new WebSocket("ws://localhost:8080/api/v1/client");
 
 
         this.innerStyles = {
@@ -42,8 +45,17 @@ export default class TestPage extends React.Component {
             },
             bNext: {
                 display: 'none'
+            },
+            preloader: {
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                overflow: 'visible',
+
+                display: 'none'
             }
-        }
+        };
 
         this.requestLocalVideo = this.requestLocalVideo.bind(this);
         this.onReceiveStream = this.onReceiveStream.bind(this);
@@ -82,8 +94,6 @@ export default class TestPage extends React.Component {
 
         this.state.peer.on('call', (call) => {
             console.log('peer.on receive call');
-
-            this.state.call = call;
 
             let acceptsCall = confirm("Videocall incoming, do you want to accept it ?");
 
@@ -134,11 +144,6 @@ export default class TestPage extends React.Component {
             }
         });
 
-
-
-
-
-
         this.socket.onopen = (event) => {
             console.log("Соединение установлено.");
         };
@@ -174,6 +179,15 @@ export default class TestPage extends React.Component {
 
                         this.state.conn.on('data', this.handleMessage);
 
+                        this.innerStyles.preloader = {
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+
+                            display: 'none'
+                        };
+
                         this.setState({});
 
                         let message = {
@@ -185,6 +199,7 @@ export default class TestPage extends React.Component {
                         };
 
                         this.socket.send(JSON.stringify(message));
+
                     } else {
                         console.error("error " + event.data);
                         console.log("You need to provide a peer to connect with !");
@@ -194,6 +209,15 @@ export default class TestPage extends React.Component {
 
                 case 'init2':
 
+                    this.innerStyles.preloader = {
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        overflow: 'visible',
+
+                        display: 'none'
+                    }
                     this.setState({});
 
                     let message = {
@@ -203,14 +227,19 @@ export default class TestPage extends React.Component {
                             token: ""
                         }
                     };
-
                     this.socket.send(JSON.stringify(message));
 
                     break;
 
+                case 'STOP_VIDEO_CHAT':
+
+                    break;
+
                 case 'DISCONNECTED_PAIR':
-                    console.log('DISCONNECTED_PAIR');
-                    this.state.call.close();
+                    let video = document.getElementById('peer-camera');
+                    video.src = null;
+                    window.peer_stream = null;
+                    this.setState({});
                     break;
 
                 case 'sendMessage':
@@ -223,7 +252,6 @@ export default class TestPage extends React.Component {
                     console.log("getTest")
                     break;
             }
-
         };
     }
 
@@ -281,19 +309,30 @@ export default class TestPage extends React.Component {
                                            muted="true"></video>
                                 </div>
                             </div>
+                            <div style={this.innerStyles.preloader}>
+                                <PreloaderIcon
+                                    loader={Oval}
+                                    size={80}
+                                    strokeWidth={8} // min: 1, max: 50
+                                    strokeColor="#F0AD4E"
+                                    duration={800}
+                                />
+                            </div>
                         </div>
                         <div >
                             <div className={classNames({"container": true, [styles.connection_manager]: true})}>
                                 <div className={classNames({"row": true, [styles.row_container]: true})}>
                                     <div className="col-sm-6">
-                                        <button style={this.innerStyles.bStart} onClick={this.startVideoChat.bind(this)} type="button"
+                                        <button style={this.innerStyles.bStart} onClick={this.startVideoChat.bind(this)}
+                                                type="button"
                                                 className={classNames({
                                                     "btn btn-primary": true,
                                                     [styles.button_start]: true
                                                 })}>
                                             <span className="tr" data-tr-id="1232" data-tr="start">start</span>
                                         </button>
-                                        <button style={this.innerStyles.bNext} onClick={this.findNextPartner.bind(this)} type="button"
+                                        <button style={this.innerStyles.bNext} onClick={this.findNextPartner.bind(this)}
+                                                type="button"
                                                 className={classNames({
                                                     "btn btn-primary": true,
                                                     [styles.button_start]: true
@@ -302,86 +341,29 @@ export default class TestPage extends React.Component {
                                         </button>
                                     </div>
                                     <div className="col-sm-6">
-                                        <button type="button" onClick={this.stopVideoChat.bind(this)} className={classNames({
-                                            "btn btn-primary": true,
-                                            [styles.button_stop]: true
-                                        })}>
+                                        <button type="button" onClick={this.stopVideoChat.bind(this)}
+                                                className={classNames({
+                                                    "btn btn-primary": true,
+                                                    [styles.button_stop]: true
+                                                })}>
                                             <span className="tr" data-tr-id="1232" data-tr="start">stop</span>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-                        {/*<div className="chat frame">*/}
-                        {/*<ul id="message-holder" className="message-holder"></ul>*/}
-                        {/*<div>*/}
-                        {/*<div className="msj-rta macro">*/}
-                        {/*<div className="text text-r" style={{background:'whitesmoke'}}>*/}
-                        {/*<input id="messageholder" className="mytext" placeholder="Type a message"/>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
-                        {/*<div style={{padding: 10 }}>*/}
-                        {/*<span className="glyphicon glyphicon-share-alt"></span>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
                     </div>
                     <div className="col-sm-6 section section-2">
-                        {/*<div className="exam-title">*/}
-                        {/*<p>IELTS speaking test</p>*/}
-                        {/*</div>*/}
-                        {/*<div className = "questions">*/}
-                        {/*<div className="question question-1">*/}
-                        {/*<div id="title-1" className="title"><p>Part1</p></div>*/}
-                        {/*<div id="question-content-1" className="question-content question-content-1">*/}
-                        {/*<ol id="question-test-1">*/}
-                        {/*<li></li>*/}
-                        {/*<li> </li>*/}
-                        {/*<li> </li>*/}
-                        {/*<li> </li>*/}
-                        {/*</ol>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
-                        {/*<div className="question question-2">*/}
-                        {/*<div id="title-2" className="title"><p>Part2</p></div>*/}
-                        {/*<div id="question-content-2" className="question-content question-content-2">*/}
-                        {/*<div className="question-2-belong">*/}
-                        {/*<div className="my-turn">Your topic</div>*/}
-                        {/*<div className="your-turn">Partner's topic</div>*/}
-                        {/*</div>*/}
-                        {/*<div className="question-2-question"><p>Describe a house / apartament that someone you know lives in.</p></div>*/}
-                        {/*<div className="question-2-begin">You should say</div>*/}
-                        {/*<div className="a">*/}
-                        {/*<ul id="question-test-1">*/}
-                        {/*<li>Whose house/apartament this is</li>*/}
-                        {/*<li>Where the house/ apartament is</li>*/}
-                        {/*<li>What it looks like inside</li>*/}
-                        {/*</ul>*/}
-                        {/*<p id="question-2-last" className="question-2-last">and explain what you like or dislike about this person’s house/ apartament</p>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
-                        {/*<div id="title-3" className="question question-3">*/}
-                        {/*<div className="title"><p>Part3</p></div>*/}
-                        {/*<div id="question-content-3" className="question-content question-content-3">*/}
-                        {/*<ol id="question-test-3">*/}
-                        {/*<li>What kinks of home are most popular in your country ?</li>*/}
-                        {/*<li>What do you think are the advantages of living in a house rather than an apartament?</li>*/}
-                        {/*<li>Do you think that everyone would like to live in a larger home? Why is that?</li>*/}
-                        {/*</ol>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
-                        {/*</div>*/}
+                        <QuestionBlock/>
                     </div>
-                    <Chat {...this.props} socket={this.socket}/>
+                    <Chat className = {styles.chat} {...this.props} socket={this.socket}/>
                 </div>
             </div>
         )
     }
 
     startVideoChat() {
+
         this.innerStyles = {
             bStart: {
                 display: 'none'
@@ -391,17 +373,48 @@ export default class TestPage extends React.Component {
             }
         };
 
+        this.innerStyles.preloader = {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            overflow: 'visible',
+
+            display: 'block'
+        };
+
+        this.setState({});
+
         let message = {
             Type: "INIT_VIDEO_CHAT",
             Action: "INIT_VIDEO_CHAT",
             Body: {}
         };
 
+
         console.log("INIT_VIDEO_CHAT");
         this.socket.send(JSON.stringify(message));
     }
 
     findNextPartner() {
+
+        this.innerStyles.preloader = {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            overflow: 'visible',
+
+            display: 'block'
+        };
+
+        let video = document.getElementById('peer-camera');
+        video.src = null;
+        window.peer_stream = null;
+
+        this.setState({});
+
+
         let message = {
             Type: "GET_NEXT_PARTNER",
             Action: "GET_NEXT_PARTNER",
@@ -413,6 +426,7 @@ export default class TestPage extends React.Component {
     }
 
     stopVideoChat() {
+        console.log("STOP_VIDEO_CHAT");
 
         this.innerStyles = {
             bStart: {
@@ -423,6 +437,28 @@ export default class TestPage extends React.Component {
             }
         };
 
+        this.innerStyles.preloader = {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            overflow: 'visible',
+
+            display: 'none'
+        };
+
+
+        let message = {
+            Type: "STOP_VIDEO_CHAT",
+            Action: "STOP_VIDEO_CHAT",
+            Body: {}
+        };
+
+        this.socket.send(JSON.stringify(message));
+
+        let video = document.getElementById('peer-camera');
+        video.src = null;
+        window.peer_stream = null;
         this.setState({});
     }
 }
