@@ -7,9 +7,6 @@ export default class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.socket = this.props.socket;
-        console.log(this.props);
-        console.log(this.socket);
-        console.log(this.props.socket);
         this.onChatMessage = this.onChatMessage.bind(this);
     }
 

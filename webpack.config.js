@@ -61,9 +61,9 @@ module.exports = {
         extensions: ['*', '.js', '.jsx', 'css', 'png']
     },
     output: {
-        path: path.resolve(__dirname + 'dist'),
-        publicPath: '/',
-        filename: 'bundle.min.js'
+        // path: path.resolve(__dirname + 'dist'),
+        // publicPath: '/',
+        filename: 'bundle.js'
     },
     plugins: debug ? [] : [
         new webpack.optimize.DedupePlugin(),
