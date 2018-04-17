@@ -6,6 +6,13 @@ import arrow from "images/arrow.png";
 import classNames from "classnames";
 import * as MainActions from "../../services/MainActions";
 
+import FacebookLoginWithButton from '../../facebook/facebook-with-button';
+import FacebookLogin from '../../facebook/facebook';
+
+const responseFacebook = (response) => {
+    console.log(response);
+};
+
 export default class MainPage extends React.Component {
 
     constructor(props) {
@@ -18,6 +25,17 @@ export default class MainPage extends React.Component {
         return (
             <div>
                 <div className={styles.section_1}>
+                    <div>
+                        <p>Facebook login with render prop (and no styling provided out the box)</p>
+                        <FacebookLogin
+                            appId="1919046028165378"
+                            autoLoad
+                            callback={this.props.callback}
+                            render={renderProps => (
+                                <button onClick={renderProps.onClick}>This is my custom FB button</button>
+                            )}
+                        />
+                    </div>
                     <div>Title</div>
                     <div className={styles.title_1}>Lets practice speaking for international english exams</div>
                 </div>

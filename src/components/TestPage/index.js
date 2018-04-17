@@ -19,10 +19,10 @@ export default class TestPage extends React.Component {
             conn: null,
             call: null,
             peer: new Peer({
-                host: "localhost",
+                host: "cheremisin.info",
                 port: 9000,
                 path: '/peerjs',
-                secure: false,
+                secure: true,
                 config: {
                     'iceServers': [
                         {url: 'stun:stun1.l.google.com:19302'},
@@ -33,10 +33,11 @@ export default class TestPage extends React.Component {
                         }
                     ]
                 }
-            })
+            }),
+            test: null
         };
 
-        this.socket = new WebSocket("ws://localhost:8080/api/v1/client");
+        this.socket = new WebSocket("wss://cheremisin.info/api/v1/client");
 
 
         this.innerStyles = {
@@ -95,9 +96,9 @@ export default class TestPage extends React.Component {
         this.state.peer.on('call', (call) => {
             console.log('peer.on receive call');
 
-            let acceptsCall = confirm("Videocall incoming, do you want to accept it ?");
+            // let acceptsCall = confirm("Videocall incoming, do you want to accept it ?");
 
-            if (acceptsCall) {
+            if (true) {
                 call.answer(window.localStream);
                 call.on('stream', (stream) => {
                     window.peer_stream = stream;
@@ -109,7 +110,7 @@ export default class TestPage extends React.Component {
                 });
 
                 call.on('close', () => {
-                    alert("The videocall has finished");
+                    // alert("The videocall has finished");
                 });
 
             } else {
@@ -150,15 +151,15 @@ export default class TestPage extends React.Component {
 
         this.socket.onclose = (event) => {
             if (event.wasClean) {
-                alert('Соединение закрыто чисто');
+                // alert('Соединение закрыто чисто');
             } else {
-                alert('Обрыв соединения'); // например, "убит" процесс сервера
+                // alert('Обрыв соединения'); // например, "убит" процесс сервера
             }
-            alert('Код: ' + event.code + ' причина: ' + event.reason);
+            // alert('Код: ' + event.code + ' причина: ' + event.reason);
         };
 
         this.socket.onerror = (error) => {
-            alert("Ошибка " + error.message);
+            // alert("Ошибка " + error.message);
         };
 
         this.socket.onmessage = (event) => {
@@ -191,8 +192,8 @@ export default class TestPage extends React.Component {
                         this.setState({});
 
                         let message = {
-                            Type: "getTest",
-                            Action: "getTest",
+                            Type: "GET_TEST",
+                            Action: "GET_TEST",
                             Body: {
                                 token: ""
                             }
@@ -221,8 +222,8 @@ export default class TestPage extends React.Component {
                     this.setState({});
 
                     let message = {
-                        Type: "getTest",
-                        Action: "getTest",
+                        Type: "GET_TEST",
+                        Action: "GET_TEST",
                         Body: {
                             token: ""
                         }
@@ -247,9 +248,10 @@ export default class TestPage extends React.Component {
                     TestServices.onChatMessage(obj.status);
                     break;
 
-                case 'getTest':
-                    // insertTest(obj.body);
-                    console.log("getTest")
+                case 'GET_TEST':
+                    console.log('GET_TEST');
+                    console.log(obj.body);
+                    TestServices.onTestQuestions(obj.body);
                     break;
             }
         };
@@ -354,9 +356,28 @@ export default class TestPage extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-6 section section-2">
-                        <QuestionBlock/>
+                        <QuestionBlock test={this.state.test}/>
                     </div>
                     <Chat className = {styles.chat} {...this.props} socket={this.socket}/>
+                </div>
+                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

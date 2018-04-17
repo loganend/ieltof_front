@@ -45,8 +45,8 @@
     margin: 0 20px;
 }
 
-:local(.part_1) {
-
+:local(.part_1 li) {
+    padding: 3px 0;
 }
 
 :local(.part_header) {
@@ -70,4 +70,24 @@
 
 :local(.part_1_header p) {
 
+}
+
+:local(.part_1_content) {
+    margin-left: 10%;
+}
+
+:local(.part_2 li) {
+    padding: 3px 0;
+}
+
+:local(.part_2_content) {
+    margin-left: 10%;
+}
+
+:local(.part_3 li) {
+    padding: 3px 0;
+}
+
+:local(.part_3_content) {
+    margin-left: 10%;
 }

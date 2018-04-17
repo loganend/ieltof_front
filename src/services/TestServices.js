@@ -6,3 +6,11 @@ export function onChatMessage(message) {
         message: message
     });
 }
+
+
+export function onTestQuestions(test) {
+    dispatcher.dispatch({
+        type: "TEST_QUESTIONS",
+        test: test
+    });
+}

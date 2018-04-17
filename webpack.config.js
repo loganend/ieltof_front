@@ -61,8 +61,8 @@ module.exports = {
         extensions: ['*', '.js', '.jsx', 'css', 'png']
     },
     output: {
-        path: path.resolve(__dirname + 'dist'),
-        publicPath: '/',
+        // path: path.resolve(__dirname + 'dist'),
+        // publicPath: '/',
         filename: 'bundle.js'
     },
     plugins: debug ? [] : [
