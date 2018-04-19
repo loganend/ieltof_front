@@ -11,6 +11,20 @@
     background-size: cover;
 }
 
+:local(.facebook_button) {
+    position: absolute;
+    top: 40px;
+    right: 100px;
+}
+
+:local(.facebook_button button) {
+    background-color: Transparent;
+    cursor:pointer;
+    color: white;
+    font-size: 33px;
+    outline:none;
+}
+
 :local(.title_1) {
     position: absolute;
     top: 30%;

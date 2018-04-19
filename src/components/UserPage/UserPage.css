@@ -1,0 +1,176 @@
+:local(.navbar_content) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #2f4053;
+    width: 260px;
+    box-shadow: 2px 0 2px rgba(0, 0, 0, .1);
+    z-index: 12;
+}
+
+@media (max-width: 800px) {
+    :local(.navbar_content) {
+        width: 210px;
+    }
+}
+
+:local(.navbar_content_main) {
+    position: relative;
+    height: 200px;
+}
+
+:local(.porfile_navbar) {
+    text-align: center;
+    margin-top: 50px;
+}
+
+:local(.profile_picture_navbar) {
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    border-radius: 100px;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #fff;
+    margin: 20px 0 15px;
+    cursor: pointer;
+    background: #f0f0f0;
+
+    vertical-align: middle;
+}
+
+:local(.name_navbar) {
+    background-color: transparent;
+    width: auto;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+:local(.name_profile_button) {
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+:local(.bold) {
+    background: #2f4053;
+}
+
+:local(.fa_caret_down) {
+    opacity: .7;
+    font-size: 16px;
+    margin-left: 3px;
+    margin-top: 2px;
+    vertical-align: top;
+}
+
+:local(.fa_caret_down:before) {
+    content: "\f0d7";
+}
+
+:local(.menu_navbar_container) {
+    margin-top: 50px;
+}
+
+:local(.main_navigation_navbar) {
+    padding: 0;
+    position: relative;
+}
+
+:local(.main_navigation_navbar li a) {
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    display: block;
+    padding: 9px 20px;
+    transition: .15s all ease-in-out;
+
+    cursor: pointer;
+}
+
+:local(.navbar_link_container){
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+:local(.navbar_left_icon) {
+    width: 80px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+:local(.navbar_left_text) {
+    text-align: left;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+:local(.icon_group_chat) {
+    background-image: url('~images/community.jpeg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    width: 40px;
+    height: 40px;
+
+    vertical-align: middle;
+    font-weight: 400;
+    speak: none;
+    line-height: 1;
+    display: inline-block;
+    text-decoration: inherit;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+}
+
+:local(.icon_chat_double_bubble) {
+    background-image: url('~images/chat.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    width: 40px;
+    height: 40px;
+
+    vertical-align: middle;
+    font-weight: 400;
+    speak: none;
+    line-height: 1;
+    display: inline-block;
+    text-decoration: inherit;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+}
+
+
+
+
+
+/*  */
+
+:local(.container_app_inbox) {
+    margin-left: 260px;
+    padding: 0;
+    height: 100%;
+
+}
+
+@media (max-width: 800px) {
+    :local(.container_app_inbox) {
+        margin-left: 210px;
+        padding: 0;
+        height: 100%;
+    }
+}

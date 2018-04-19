@@ -3,6 +3,13 @@ html, body {
     padding: 0;
     height: 100%;
     font-family: 'Rubik', sans-serif;
+
+
+    -webkit-overflow-scrolling: touch;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #404a5e;
+    background: #f6f9fc;
 }
 
 h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, code, del, dfn, em, img, q, s, samp, small, strike, strong, sub, sup, tt, var, dd, dl, dt, li, ol, ul, fieldset, form, label, input, textarea, legend, button, table, caption, tbody, tfoot, thead, tr, th, td {
@@ -20,4 +27,13 @@ h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, cod
     margin: 0;
     padding: 0;
     height: 100%;
+}
+
+
+.container-app {
+    height: 100%;
+    min-height: 100%;
+    padding-top: 10px;
+    margin: 0 90px 0 310px;
+    position: relative;
 }

@@ -1,0 +1,73 @@
+:local(.right_inbox) {
+    border: none;
+    width: 66%;
+    -webkit-overflow-scrolling: touch;
+    padding: 50px 0 49px;
+
+    display: inline-block;
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+    vertical-align: middle;
+    float: left;
+}
+
+:local(.top_bar_messages) {
+    border-bottom: 1px solid #efefef;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    height: 50px;
+    background: #fff;
+    display: table;
+    table-layout: fixed;
+}
+
+:local(.top_bar_messages div) {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    color: #ACACAC;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+:local(.display_chat){
+    width: 100%;
+    overflow-y: scroll;
+    word-wrap: break-word;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+
+    display: block;
+}
+
+:local(.user_information) {
+    text-align: center;
+    padding-top: 20px;
+}
+
+:local(.add_message){
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+:local(.profile_picture_conversation) {
+    width: 115px;
+    height: 115px;
+    z-index: 8;
+
+    border-radius: 200px;
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+:local(.input_text_chat_container) {
+
+}

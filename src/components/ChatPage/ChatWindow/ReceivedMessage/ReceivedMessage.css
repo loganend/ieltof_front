@@ -1,0 +1,65 @@
+a {
+    background: 0 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+:local(.message_row) {
+    text-align: left;
+}
+
+
+:local(.message_row_in_messages) {
+    padding: 5px 0 4px;
+}
+
+:local(.received_message_row) {
+    padding: 5px 0 4px;
+}
+
+:local(.small_profile_picture_in_messages) {
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+}
+
+:local(.small_profile_picture_in_messages img) {
+    width: 25px;
+    height: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -ms-border-radius: 25px;
+    border-radius: 25px;
+    background: #ddd;
+    margin-right: 5px;
+}
+
+:local(.message_bubble_in_messages) {
+    /*color: #151515;*/
+    color: #fff;
+    /*background: #efefef;*/
+    background: #EF6CB9;
+    -webkit-border-radius: 0 5px 5px;
+    -moz-border-radius: 0 5px 5px;
+    -ms-border-radius: 0 5px 5px 5px;
+    border-radius: 0 5px 5px;
+
+    display: inline-block;
+    max-width: 80%;
+    padding: 8px 13px;
+    box-shadow: none;
+    border: none;
+    position: relative;
+    text-align: left;
+    font-size: 15px;
+    word-wrap: break-word;
+}
+
+:local(.btn_edit_on_message) {
+    position: absolute;
+    color: #2f4053;
+    cursor: pointer;
+    top: -1px;
+    right: -29px;
+    padding: 0 10px 10px;
+}

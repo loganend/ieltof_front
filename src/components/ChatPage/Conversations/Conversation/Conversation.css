@@ -1,0 +1,101 @@
+:local(.conversation_in_messages) {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding-left: 9px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    cursor: pointer;
+}
+
+:local(.conversation_in_messages:hover) {
+    background: #fafafa;
+}
+
+:local(.selected_conversation) {
+    background: #fff;
+}
+
+:local(.conversation_in_messages_img) {
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 6px;
+    padding-left: 6px;
+    width: 55px;
+    text-align: center;
+}
+
+:local(.conversation_in_messages_content) {
+    padding: 2px 12px 0 15px;
+    display: table-cell;
+    width: auto;
+    text-align: left;
+    vertical-align: middle;
+    position: relative;
+}
+
+:local(.img_messaging) {
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border-radius: 44px;
+    transition: background-color .3s;
+}
+
+:local(.conversation_content_title) {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+:local(.conversation_content_title_name) {
+    display: table-cell;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+}
+
+:local(.conversation_content_title_date) {
+    display: table-cell;
+    vertical-align: middle;
+    width: 60px;
+    font-size: 12px;
+    text-align: right;
+    color: #999;
+}
+
+:local(.conversation_content_message) {
+    display: table;
+    color: #ababab;
+    font-size: 14px;
+    table-layout: fixed;
+    width: 100%;
+}
+
+:local(.conversation_content_message_text) {
+    display: table-cell;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+:local(.conversation_content_message_icon) {
+
+    display: table-cell;
+
+
+
+    display: none;
+    width: 16px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: right;
+}
+
+
+:local(.conversation_content_message_icon:hover) {
+    color: #f86060;
+}

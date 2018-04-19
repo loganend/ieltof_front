@@ -93,7 +93,7 @@ export default class App extends React.Component {
             // console.log(window.location.search.indexOf(state));
             // if ( window.location.search.indexOf(state) !== -1) {
             //     console.log(7);
-                window.FB.getLoginStatus(this.checkLoginAfterRefresh);
+            window.FB.getLoginStatus(this.checkLoginAfterRefresh);
             // }
         };
     }
@@ -155,15 +155,19 @@ export default class App extends React.Component {
     };
 
     callback = (response) => {
-        this.state.content  = <UserPage/>;
-        this.setState({});
         console.log(response);
+        if (response.status !== "unknown") {
+            this.state.content = <UserPage user={response}/>;
+            this.setState({});
+        }
     };
 
     responseFacebook = (response) => {
         console.log(response);
-        this.state.content = <UserPage/>;
-        this.setState({})
+        if (response.status !== "unknown") {
+            this.state.content = <UserPage user={response}/>;
+            this.setState({})
+        }
     };
 
     componentWillMount() {

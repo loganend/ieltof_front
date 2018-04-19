@@ -2,6 +2,7 @@ let webpack = require('webpack');
 let path = require('path');
 
 let debug = process.env.NODE_ENV !== "development";
+let HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
     devtool: debug ? "inline-sourcemap" : null,
@@ -13,7 +14,10 @@ module.exports = {
             {
                 test: /\.(js|jsx)?$/,
                 exclude: /(node_modules)/,
-                loader: 'babel-loader',
+                use: [
+                    'cache-loader',
+                    'babel-loader'
+                ],
             },
             {
                 test: /\.(less|css)$/,
@@ -28,6 +32,8 @@ module.exports = {
                     }
                 }, {
                     loader: "less-loader"
+                }, {
+                    loader: "cache-loader",
                 }]
             },
             {
@@ -66,9 +72,11 @@ module.exports = {
         filename: 'bundle.js'
     },
     plugins: debug ? [] : [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
+        new HardSourceWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+        // new webpack.optimize.DedupePlugin(),
+        // new webpack.optimize.OccurenceOrderPlugin(),
+        // new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
     ],
     devServer: {
         contentBase: './dist',
