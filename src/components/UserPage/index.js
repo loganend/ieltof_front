@@ -2,28 +2,34 @@ import React, {Component} from "react";
 import styles from "./UserPage.css";
 import classNames from "classnames";
 import ChatPage from "components/ChatPage";
+import Community from "components/Community";
+import Tests from "components/Tests";
+import * as MainServices from "../../services/MainServices";
+import * as UserServices from "../../services/UserServices";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export default class UserPage extends React.Component {
+
 
     constructor(props) {
         super(props);
 
         this.state = this.props;
-        this.state.avatar = "";
-        console.log(this.state.user.name);
 
+        cookies.set('facebookid', this.state.user.id, { path: '/' });
+        console.log(cookies.get('facebookid'));
+
+        this.state.avatar = "";
+        this.state.tab =
+            <div className={classNames({[styles.container_app]: true})}>
+                <Community/>
+            </div>;
+        console.log(this.state.user.name);
     }
 
     componentDidMount() {
-        // window.FB.api(
-        //     '/1919046028165378/picture?type=small',
-        //     'GET',
-        //     {"redirect":"false"},
-        //     (response) => {
-        //         console.log(response)
-        //     }
-        // );
-
         window.FB.api(
             "/me/picture",
             {
@@ -34,6 +40,8 @@ export default class UserPage extends React.Component {
                 console.log(response)
                 console.log(response.data.url)
                 this.state.avatar = response.data.url;
+
+                UserServices.getUser(this.state);
                 this.setState({})
                 if (response && !response.error) {
                     /* handle the result */
@@ -41,6 +49,35 @@ export default class UserPage extends React.Component {
             }
         );
     }
+
+    facebookLogout() {
+        MainServices.facebookLogout();
+    }
+
+    openCommunity() {
+        this.state.tab =
+            <div className={classNames({[styles.container_app]: true})}>
+                <Community/>
+            </div>;
+        this.setState({});
+    }
+
+    openMessages() {
+        this.state.tab =
+            <div className={classNames({"container-app": true, [styles.container_app_inbox]: true})}>
+                <ChatPage/>
+            </div>;
+        this.setState({});
+    }
+
+    openTests() {
+        this.state.tab =
+            <div className={classNames({[styles.container_app]: true})}>
+                <Tests/>
+            </div>;
+        this.setState({});
+    }
+
 
     render() {
         return (
@@ -67,16 +104,14 @@ export default class UserPage extends React.Component {
                                             [styles.fa_caret_down]: true
                                         })}></i></div>
                                     </a>
-                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <li><a href="/profile/" ng-bind-html="'NAVBAR_PROFILE' | translate">Profile</a>
+                                    <ul className={classNames({"dropdown-menu": true})} aria-labelledby="dropdownMenu1">
+                                        <li><a href="/buddies/">Friends</a>
                                         </li>
-                                        <li><a href="/buddies/" ng-bind-html="'NAVBAR_FRIENDS' | translate">Friends</a>
-                                        </li>
-                                        <li><a href="/settings/"
-                                               ng-bind-html="'NAVBAR_SETTINGS' | translate">Settings</a></li>
-                                        <li role="separator" class="hl"></li>
-                                        <li><a report-problem="" report-from="Navbar">Report a problem</a></li>
-                                        <li><a logout="">Log out</a>
+                                        {/*<li><a href="/settings/"*/}
+                                        {/*ng-bind-html="'NAVBAR_SETTINGS' | translate">Settings</a></li>*/}
+                                        {/*<li role="separator" class="hl"></li>*/}
+                                        {/*<li><a report-problem="" report-from="Navbar">Report a problem</a></li>*/}
+                                        <li><a logout="" onClick={this.facebookLogout.bind(this)}>Log out</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -85,27 +120,46 @@ export default class UserPage extends React.Component {
                         <div className={styles.menu_navbar_container} style={{color: 'white'}}>
                             <ul className={styles.main_navigation_navbar}>
                                 <li>
-                                    <a>
+                                    <a onClick={this.openCommunity.bind(this)}>
                                         <div className={styles.navbar_link_container}>
                                             <div className={styles.navbar_left_icon}>
                                                 <i className={styles.icon_group_chat}></i>
                                                 {/*<i className="icon-set-1 icon-group-chat middle"></i>*/}
                                             </div>
                                             <div className={styles.navbar_left_text}>
-                                                <div className="inline middle" ng-bind-html="'COMMUNITY' | translate">Community</div>
+                                                <div className="inline middle" ng-bind-html="'COMMUNITY' | translate">
+                                                    Community
+                                                </div>
                                             </div>
                                         </div>
                                     </a>
                                 </li>
                                 <li>
-                                    <a>
+                                    <a onClick={this.openMessages.bind(this)}>
                                         <div className={styles.navbar_link_container}>
                                             <div className={styles.navbar_left_icon}>
                                                 <i className={styles.icon_chat_double_bubble}></i>
                                                 {/*<i className="icon-set-1 icon-chat-double-bubble middle"></i>*/}
                                             </div>
                                             <div className={styles.navbar_left_text}>
-                                                <div className="inline middle" ng-bind-html="'HEADING_MESSAGE' | translate">Messages</div>
+                                                <div className="inline middle"
+                                                     ng-bind-html="'HEADING_MESSAGE' | translate">Messages
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a onClick={this.openTests.bind(this)}>
+                                        <div className={styles.navbar_link_container}>
+                                            <div className={styles.navbar_left_icon}>
+                                                <i className={styles.icon_test_speaking}></i>
+                                                {/*<i className="icon-set-1 icon-chat-double-bubble middle"></i>*/}
+                                            </div>
+                                            <div className={styles.navbar_left_text}>
+                                                <div className="inline middle"
+                                                     ng-bind-html="'HEADING_MESSAGE' | translate">Go to Test
+                                                </div>
                                             </div>
                                         </div>
                                     </a>
@@ -114,9 +168,7 @@ export default class UserPage extends React.Component {
                         </div>
                     </div>
                 </navbar>
-                <div className={classNames({"container-app": true, [styles.container_app_inbox]: true})}>
-                    <ChatPage/>
-                </div>
+                {this.state.tab}
             </div>
         )
     }

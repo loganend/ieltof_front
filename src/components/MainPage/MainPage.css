@@ -185,3 +185,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+:local(.footer) {
+    padding-top: 15px;
+    font-size: 18px;
+}

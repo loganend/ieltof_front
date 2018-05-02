@@ -1,0 +1,169 @@
+:local(.community_grid_cell) {
+    width: 33%;
+    padding: 0 10px;
+
+    display: inline-block;
+    vertical-align: top;
+    transition: all ease-in-out .15s;
+
+    position: relative;
+}
+
+
+@media (max-width: 1200px) {
+    :local(.community_grid_cell) {
+        width: 50%;
+    }
+}
+
+@media (max-width: 1600px) {
+    :local(.community_grid_cell) {
+        width: 50%;
+    }
+}
+
+@media (max-width: 1140px) {
+    :local(.community_grid_cell) {
+        width: 100%;
+    }
+}
+
+:local(.community_card) {
+    padding: 10px 10px 5px;
+    margin-bottom: 16px;
+}
+
+:local(.community_card:first-child) {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+:local(.card) {
+    border-radius: 5px;
+    padding: 20px 22px;
+    margin-bottom: 30px;
+
+    background: #fff;
+    box-shadow: 0 2px 2px rgba(0,0,0,.1)
+}
+
+:local(.community_profile_picture_container) {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    position: relative;
+    width: 130px;
+}
+
+:local(.profile_picture_community) {
+    width: 130px;
+    height: 130px;
+    z-index: 3;
+
+    border-radius: 200px;
+    border: 1px solid red;
+    /*background: #f0f0f0;*/
+
+    cursor: pointer;
+
+    vertical-align: middle;
+}
+
+:local(.profile_picture_community p) {
+    color: red;
+    line-height: 130px;;
+    font-size: 40px;
+}
+
+:local(.community_info_container) {
+    display: table-cell;
+    padding-left: 20px;
+    vertical-align: middle;
+}
+
+:local(.face_to_face) {
+    cursor: pointer;
+    height: 60px;
+
+
+    margin: 5px 0 5px 0;
+
+    border-radius: 5px;
+    border: 1px solid #2f4053;
+}
+
+:local(.face_to_face div) {
+    height: 54px;
+    width: 54px;
+    border-radius: 25px;
+    background: #2f4053;
+
+    margin: 2px 0 0 10px;
+
+    position: relative;
+    display: inline-block;
+
+    float: left;
+}
+
+:local(.face_to_face img) {
+    position: absolute;
+    top: 51%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+
+    width: 45px;
+    height: 45px;
+}
+
+:local(.face_to_face p) {
+    width: 150px;
+    font-size: 23px;
+    color: #2f4053;
+    margin: 17px 15px 15px 80px;
+}
+
+
+:local(.audio_record) {
+    cursor: pointer;
+    height: 60px;
+    margin: 5px 0 5px 0;
+
+    border-radius: 5px;
+    border: 1px solid #2f4053;
+}
+
+:local(.audio_record div) {
+    height: 54px;
+    width: 54px;
+    border-radius: 25px;
+    background: #2f4053;
+
+    margin: 2px 0 0 10px;
+
+    position: relative;
+    display: inline-block;
+
+    float: left;
+}
+
+
+:local(.audio_record img) {
+
+    position: absolute;
+    top: 55%;
+    left: 54%;
+    transform: translate(-50%, -50%);
+
+    width: 45px;
+    height: 45px;
+}
+
+:local(.audio_record p) {
+    width: 150px;
+    font-size: 23px;
+    color: #2f4053;
+    margin: 17px 15px 15px 80px;
+}

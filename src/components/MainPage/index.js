@@ -4,9 +4,11 @@ import world from "images/world.jpg";
 import cool from "images/cool.jpg";
 import arrow from "images/arrow.png";
 import classNames from "classnames";
-import * as MainActions from "../../services/MainActions";
+import * as MainActions from "../../services/MainServices";
 
 import FacebookLogin from '../../facebook/facebook';
+
+import {Link} from 'react-router-dom';
 
 const responseFacebook = (response) => {
     console.log(response);
@@ -34,7 +36,7 @@ export default class MainPage extends React.Component {
                             )}
                         />
                     </div>
-                    <div className={styles.title_1}>Lets practice speaking for international english exams</div>
+                    <div className={styles.title_1}>Lets practice speaking on one of international english exams</div>
                 </div>
                 <div className={styles.section_2}>
                     <div className={styles.title_2}>
@@ -112,6 +114,11 @@ export default class MainPage extends React.Component {
                     </div>
                 </div>
                 <div className={styles.section_4}>
+                    <div className={classNames({"second-footer":true, [styles.footer]:true})}>
+                        © 2018 Ieltof
+                        <Link className="one-footer-link" to="terms">Terms and conditions</Link>
+                        <Link className="one-footer-link" to="privacy">Privacy policy</Link>
+                    </div>
                 </div>
 
                 <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"

@@ -7,9 +7,19 @@ export default class Conversations extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            friends: this.props.friends
+        }
     }
 
-
+    renderConverstions() {
+        debugger;
+        let conversations = [];
+        this.props.friends.forEach((value, key, map) => {
+            conversations.push(<Conversation key={key.toString()} friend={value}/>)
+        });
+        return conversations;
+    }
 
     render() {
         return (
@@ -20,21 +30,7 @@ export default class Conversations extends React.Component {
                     </div>
                 </div>
                 <div className={classNames({[styles.conversations_container]: true})}>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
-                    <Conversation/>
+                    {this.renderConverstions()}
                 </div>
             </div>
         )

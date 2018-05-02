@@ -75,6 +75,10 @@
 :local(.fa_caret_down:before) {
     content: "\f0d7";
 }
+:local(.dropdown) {
+    position: relative;
+    width: 100%;
+}
 
 :local(.menu_navbar_container) {
     margin-top: 50px;
@@ -95,6 +99,14 @@
 
     cursor: pointer;
 }
+
+
+:local(.main_navigation_navbar li a:hover) {
+    outline: 0;
+    background: #425a74;
+    text-decoration: none;
+}
+
 
 :local(.navbar_link_container){
     display: table;
@@ -154,6 +166,26 @@
     text-transform: none;
 }
 
+:local(.icon_test_speaking) {
+    background-image: url('~images/speak.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    width: 40px;
+    height: 40px;
+
+    vertical-align: middle;
+    font-weight: 400;
+    speak: none;
+    line-height: 1;
+    display: inline-block;
+    text-decoration: inherit;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+}
+
 
 
 
@@ -173,4 +205,12 @@
         padding: 0;
         height: 100%;
     }
+}
+
+:local(.container_app) {
+    height: 100%;
+    min-height: 100%;
+    padding-top: 10px;
+    margin: 0 90px 0 310px;
+    position: relative;
 }

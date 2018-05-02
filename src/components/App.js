@@ -1,8 +1,16 @@
 import React from "react";
 import Content from "components/Content";
+import Policy from "components/Policy";
+import Terms from "components/Terms";
 import MainPage from "components/MainPage";
 import UserPage from "components/UserPage";
 import MainStore from "../stores/MainStore";
+
+
+import  { HashRouter,
+    Switch,
+    Route,
+    Link } from 'react-router-dom';
 
 const getIsMobile = () => {
     let isMobile = false;
@@ -19,8 +27,8 @@ const getIsMobile = () => {
 
 export default class App extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             content: <div/>,
             isSdkLoaded: false,
@@ -66,10 +74,6 @@ export default class App extends React.Component {
         if (this.state.isSdkLoaded && nextProps.autoLoad) {
             window.FB.getLoginStatus(this.checkLoginAfterRefresh);
         }
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false;
     }
 
     setStateIfMounted(state) {
@@ -157,7 +161,9 @@ export default class App extends React.Component {
     callback = (response) => {
         console.log(response);
         if (response.status !== "unknown") {
+
             this.state.content = <UserPage user={response}/>;
+
             this.setState({});
         }
     };
@@ -165,27 +171,54 @@ export default class App extends React.Component {
     responseFacebook = (response) => {
         console.log(response);
         if (response.status !== "unknown") {
+
+
             this.state.content = <UserPage user={response}/>;
+
             this.setState({})
         }
     };
 
     componentWillMount() {
         MainStore.on("face_to_face_test", this.setFaceTestPage.bind(this));
+        MainStore.on("facebook_logpout_event", this.onFacebookLogpoutEvent.bind(this));
     }
 
     componentWillUnmount() {
-        MainStore.removeListener("face_to_face_test", this.setFaceTestPage.bind(this))
+        MainStore.removeListener("face_to_face_test", this.setFaceTestPage.bind(this));
+        MainStore.removeListener("facebook_logpout_event", this.onFacebookLogpoutEvent.bind(this));
+
+        this._isMounted = false;
     }
 
     setFaceTestPage() {
         this.state.content = MainStore.getContent();
+
         this.setState({});
+    }
+
+    onFacebookLogpoutEvent() {
+        // this.state.content = MainStore.getContent();
+        // this.setState({});
+        this.props.history.push("/");
+        location.reload()
     }
 
     render() {
         return (
-            <Content data={this.state.content}/>
+        <div>
+
+            <Switch>
+                <Route exact path='/' render={(props) => (
+                    <Content {...props} data={this.state.content}/>
+                )}/>
+                <Route path='/privacy' component={Policy}/>
+                <Route path='/terms' component={Terms}/>
+            </Switch>
+
+            {/*<Content data={this.state.content}/>*/}
+
+        </div>
         )
     }
 }

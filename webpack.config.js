@@ -5,7 +5,7 @@ let debug = process.env.NODE_ENV !== "development";
 let HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
-    devtool: debug ? "inline-sourcemap" : null,
+    devtool: debug ? 'cheap-module-eval-source-map' : null,
     entry: [
         path.resolve(__dirname + '/src/index.js'),
     ],
@@ -72,8 +72,8 @@ module.exports = {
         filename: 'bundle.js'
     },
     plugins: debug ? [] : [
-        new HardSourceWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new HardSourceWebpackPlugin()
+        // new webpack.HotModuleReplacementPlugin()
         // new webpack.optimize.DedupePlugin(),
         // new webpack.optimize.OccurenceOrderPlugin(),
         // new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})

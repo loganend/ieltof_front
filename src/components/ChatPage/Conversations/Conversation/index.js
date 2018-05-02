@@ -6,6 +6,9 @@ export default class Conversation extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            friend: this.props.friend
+        }
     }
 
 
@@ -20,7 +23,7 @@ export default class Conversation extends React.Component {
                 <div className={classNames({[styles.conversation_in_messages_content]: true})}>
                     <div className={classNames({[styles.conversation_content_title]: true})}>
                         <div className={classNames({[styles.conversation_content_title_name]: true})}>
-                            <span>B B.</span>
+                            <span>{this.state.friend.friend_id}</span>
                         </div>
                         <div className={classNames({[styles.conversation_content_title_date]: true})}>
                             09:35 pm
