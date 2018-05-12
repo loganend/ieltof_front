@@ -6,27 +6,26 @@ import Community from "components/Community";
 import Tests from "components/Tests";
 import * as MainServices from "../../services/MainServices";
 import * as UserServices from "../../services/UserServices";
-import Cookies from 'universal-cookie';
+import UserStore from "../../stores/UserStore";
+import dispatcher from "../../dispatcher";
 
-const cookies = new Cookies();
+
 
 export default class UserPage extends React.Component {
-
 
     constructor(props) {
         super(props);
 
         this.state = this.props;
-
-        cookies.set('facebookid', this.state.user.id, { path: '/' });
-        console.log(cookies.get('facebookid'));
-
         this.state.avatar = "";
         this.state.tab =
             <div className={classNames({[styles.container_app]: true})}>
                 <Community/>
             </div>;
         console.log(this.state.user.name);
+
+        this.socket = new WebSocket("wss://cheremisin.info/api/v1/user");
+        // this.socket = new WebSocket("ws://127.0.0.1:8080/api/v1/user");
     }
 
     componentDidMount() {
@@ -48,6 +47,66 @@ export default class UserPage extends React.Component {
                 }
             }
         );
+
+        this.socket.onopen = () => {
+            console.log("Соединение установлено.");
+        };
+
+        this.socket.onclose = (event) => {
+            if (event.wasClean) {
+                console.log('Соединение закрыто чисто');
+            } else {
+                console.log('Обрыв соединения');
+            }
+            console.log('Код: ' + event.code + ' причина: ' + event.reason);
+        };
+
+        this.socket.onerror = (error) => {
+            console.log("Ошибка " + error.message);
+        };
+
+        this.socket.onmessage = (event) => {
+            console.log("Получены данные " + event.data);
+            let message = JSON.parse(event.data);
+            console.log("event" + event.data);
+
+            switch (message.action) {
+                case 'initMessage':
+                    break;
+
+                case 'sendMessage':
+                    message.body.Text = message.body.Text.replace(/''/g, "'");
+                    dispatcher.dispatch({
+                        type: "REVIEVE_NEW_MESSAGE",
+                        message: message.body
+                    });
+                    break;
+            }
+        };
+    }
+
+
+    componentWillMount() {
+        UserStore.on("get_user_event", this.onGetUserEvent.bind(this));
+    }
+
+    componentWillUnmount() {
+        UserStore.removeListener("get_user_event", this.onGetUserEvent.bind(this));
+    }
+
+    onGetUserEvent() {
+        let profile = UserStore.getProfile();
+        let message = {
+            type: "initMessage",
+            action: "initMessage",
+            body: {
+                user_id: profile.Id
+            }
+        };
+        this.socket.send(JSON.stringify(message));
+
+        UserServices.getFriends();
+        UserServices.getOnlineUsers();
     }
 
     facebookLogout() {
@@ -65,7 +124,7 @@ export default class UserPage extends React.Component {
     openMessages() {
         this.state.tab =
             <div className={classNames({"container-app": true, [styles.container_app_inbox]: true})}>
-                <ChatPage/>
+                <ChatPage socket={this.socket}/>
             </div>;
         this.setState({});
     }
@@ -105,8 +164,8 @@ export default class UserPage extends React.Component {
                                         })}></i></div>
                                     </a>
                                     <ul className={classNames({"dropdown-menu": true})} aria-labelledby="dropdownMenu1">
-                                        <li><a href="/buddies/">Friends</a>
-                                        </li>
+                                        {/*<li><a href="/buddies/">Friends</a>*/}
+                                        {/*</li>*/}
                                         {/*<li><a href="/settings/"*/}
                                         {/*ng-bind-html="'NAVBAR_SETTINGS' | translate">Settings</a></li>*/}
                                         {/*<li role="separator" class="hl"></li>*/}

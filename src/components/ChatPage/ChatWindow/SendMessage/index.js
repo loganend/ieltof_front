@@ -20,7 +20,7 @@ export default class SendMessage extends React.Component {
                         </div>
                         <div className={classNames({[styles.message_bubble_in_messages]: true})}>
                             <div>
-                                <span>aa ss</span>
+                                <span>{this.props.text}</span>
                             </div>
                             <div className={classNames({[styles.btn_edit_on_message]: true})}>
                                 <span class="fa fa-pencil"></span>

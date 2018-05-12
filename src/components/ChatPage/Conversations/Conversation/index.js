@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import styles from "./Conversation.css";
 import classNames from "classnames";
 
+import * as UserServices from "../../../../services/UserServices";
+
 export default class Conversation extends React.Component {
 
     constructor(props) {
@@ -11,19 +13,18 @@ export default class Conversation extends React.Component {
         }
     }
 
-
     render() {
         return (
 
-            <a className={classNames({[styles.conversation_in_messages]: true, [styles.selected_conversation]: true})}>
+            <a onClick={this.openDiaplog.bind(this)} className={classNames({[styles.conversation_in_messages]: true, [styles.selected_conversation]: true})}>
                 <div className={classNames({[styles.conversation_in_messages_img]: true})}>
                     <img className={classNames({[styles.img_messaging]: true})}
-                         src="http://cdn-storage.speaky.com/image/ec20eba9-b969-4ac2-ac87-5139eec5da10.jpeg?resize-width=100&amp;resize-height=100"/>
+                         src={this.state.friend.url}/>
                 </div>
                 <div className={classNames({[styles.conversation_in_messages_content]: true})}>
                     <div className={classNames({[styles.conversation_content_title]: true})}>
                         <div className={classNames({[styles.conversation_content_title_name]: true})}>
-                            <span>{this.state.friend.friend_id}</span>
+                            <span>{this.state.friend.name}</span>
                         </div>
                         <div className={classNames({[styles.conversation_content_title_date]: true})}>
                             09:35 pm
@@ -39,6 +40,10 @@ export default class Conversation extends React.Component {
                 </div>
             </a>
         )
+    }
+
+    openDiaplog() {
+        UserServices.openDialog(this.state.friend.friend_id);
     }
 
 }

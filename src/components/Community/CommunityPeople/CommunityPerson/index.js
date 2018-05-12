@@ -1,10 +1,8 @@
 import React, {Component} from "react";
 import classNames from "classnames";
 import styles from "./CommunityPerson.css";
-
 import UserStore from "../../../../stores/UserStore";
-
-import * as UserServices from "../../../../services/UserServices"
+import * as UserServices from "../../../../services/UserServices";
 
 export default class CommunityPerson extends React.Component {
 
@@ -12,8 +10,21 @@ export default class CommunityPerson extends React.Component {
         super(props);
         console.log(this.props.data);
         this.state = {
-            person: this.props.data
+            person: this.props.data,
+            isRequestFriend: false
         }
+    }
+
+    componentWillMount() {
+        UserStore.on("request_friend_" + this.state.person.Id, this.onPressFriendRequest.bind(this));
+    }
+
+    componentWillUnmount() {
+        UserStore.removeListener("request_friend_" + this.state.person.Id, this.onPressFriendRequest.bind(this));
+    }
+
+    onPressFriendRequest() {
+        this.setState({isRequestFriend: true})
     }
 
     render() {
@@ -21,24 +32,28 @@ export default class CommunityPerson extends React.Component {
         return (
             <div className={styles.community_grid_cell}>
                 <display-user-card>
-                    <div className={classNames({[styles.card]: true, [styles.community_card]: true })}>
+                    <div className={classNames({[styles.card]: true, [styles.community_card]: true})}>
                         <div>
 
                             <div className={classNames({[styles.community_profile_picture_container]: true})}>
                                 {/*<div className={classNames({[styles.new_user_badge_community]: true, [styles. new_user_badge_position_community]: true })} >*/}
-                                    {/*NEW*/}
+                                {/*NEW*/}
                                 {/*</div>*/}
                                 <img className={styles.profile_picture_community}
                                      src={this.state.person.url}/>
                             </div>
 
 
-                            <div className={styles.community_info_container} >
+                            <div className={styles.community_info_container}>
                                 <div className={styles.community_personal_info_name}>
                                     <b>{this.state.person.name}</b>
-                                    <span className={styles.community_personal_info_age}>21</span>
+                                    {/*<span className={styles.community_personal_info_age}>21</span>*/}
                                     <dot-connected>
-                                        <i className={classNames({"fa": true, "fa-circle": true, [styles.dot_connected]: true })}></i>
+                                        <i className={classNames({
+                                            "fa": true,
+                                            "fa-circle": true,
+                                            [styles.dot_connected]: true
+                                        })}></i>
                                     </dot-connected>
                                 </div>
 
@@ -46,9 +61,16 @@ export default class CommunityPerson extends React.Component {
                                 <div className={styles.community_description_container}>Say Hii 😎
                                     insta:modyrabie
                                 </div>
-                                <div style={{marginTop: 10}} onClick={this.sendRequestToFriends.bind(this)}>
-                                    <p>Add to friend</p>
-                                </div>
+                                {(UserStore.getFriend(this.state.person.Id) === undefined || UserStore.getFriend(this.state.person.id) === null) && !this.state.isRequestFriend ?
+
+                                    <div style={{marginTop: 10}} onClick={this.sendRequestToFriends.bind(this)}>
+                                        <p>Add to friend</p>
+                                    </div> :
+                                    <div style={{marginTop: 10}}>
+                                        <p>Your friend :)</p>
+                                    </div>
+                                }
+
 
                                 {/*<div className={styles.community-flag-container} >*/}
                                 {/*<div className={styles.community-flag-container} class="community-native-flag-container">*/}

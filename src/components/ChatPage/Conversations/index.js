@@ -13,7 +13,6 @@ export default class Conversations extends React.Component {
     }
 
     renderConverstions() {
-        debugger;
         let conversations = [];
         this.props.friends.forEach((value, key, map) => {
             conversations.push(<Conversation key={key.toString()} friend={value}/>)
@@ -35,6 +34,5 @@ export default class Conversations extends React.Component {
             </div>
         )
     }
-
 }
 

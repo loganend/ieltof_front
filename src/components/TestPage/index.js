@@ -38,6 +38,8 @@ export default class TestPage extends React.Component {
         };
 
         this.socket = new WebSocket("wss://cheremisin.info/api/v1/client");
+        // this.socket = new WebSocket("ws://127.0.0.1:8080/api/v1/client");
+
 
 
         this.innerStyles = {
@@ -103,7 +105,6 @@ export default class TestPage extends React.Component {
                 call.on('stream', (stream) => {
                     window.peer_stream = stream;
                     // this.onReceiveStream(stream, 'peer-camera');
-
                     let video = document.getElementById('peer-camera');
                     video.src = window.URL.createObjectURL(stream);
                     window.peer_stream = stream;

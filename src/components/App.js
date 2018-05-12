@@ -5,12 +5,8 @@ import Terms from "components/Terms";
 import MainPage from "components/MainPage";
 import UserPage from "components/UserPage";
 import MainStore from "../stores/MainStore";
-
-
-import  { HashRouter,
-    Switch,
-    Route,
-    Link } from 'react-router-dom';
+import {Switch, Route} from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 const getIsMobile = () => {
     let isMobile = false;
@@ -24,6 +20,7 @@ const getIsMobile = () => {
     return isMobile;
 };
 
+const cookies = new Cookies();
 
 export default class App extends React.Component {
 
@@ -162,6 +159,7 @@ export default class App extends React.Component {
         console.log(response);
         if (response.status !== "unknown") {
 
+            cookies.set('facebookid', response.id, {path: '/'});
             this.state.content = <UserPage user={response}/>;
 
             this.setState({});
@@ -172,7 +170,7 @@ export default class App extends React.Component {
         console.log(response);
         if (response.status !== "unknown") {
 
-
+            cookies.set('facebookid', response.id, {path: '/'});
             this.state.content = <UserPage user={response}/>;
 
             this.setState({})
@@ -206,19 +204,19 @@ export default class App extends React.Component {
 
     render() {
         return (
-        <div>
+            <div>
 
-            <Switch>
-                <Route exact path='/' render={(props) => (
-                    <Content {...props} data={this.state.content}/>
-                )}/>
-                <Route path='/privacy' component={Policy}/>
-                <Route path='/terms' component={Terms}/>
-            </Switch>
+                <Switch>
+                    <Route exact path='/' render={(props) => (
+                        <Content {...props} data={this.state.content}/>
+                    )}/>
+                    <Route path='/privacy' component={Policy}/>
+                    <Route path='/terms' component={Terms}/>
+                </Switch>
 
-            {/*<Content data={this.state.content}/>*/}
+                {/*<Content data={this.state.content}/>*/}
 
-        </div>
+            </div>
         )
     }
 }

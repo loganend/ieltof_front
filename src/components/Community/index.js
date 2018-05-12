@@ -1,24 +1,26 @@
 import React, {Component} from "react";
 import styles from "./Community.css";
 import CommunityPeople from "./CommunityPeople";
-import ChatBox from "./ChatBox";
-
-import UserStore from "../../stores/UserStore"
-
-import * as UserServices from "../../services/UserServices"
+import UserStore from "../../stores/UserStore";
+import * as UserServices from "../../services/UserServices";
 
 export default class Community extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            profile: UserStore.getProfile(),
             users: []
         }
     }
 
     componentDidMount() {
-        UserServices.getAllUsers();
+        // UserServices.getAllUsers();
+        if (this.state.profile.Id !== undefined) {
+            UserServices.getOnlineUsers();
+        }
     }
+
 
     componentWillMount() {
         UserStore.on("get_users_event", this.onGetUsersEvent.bind(this));
@@ -39,7 +41,7 @@ export default class Community extends React.Component {
         return (
             <div className={styles.container_app_table}>
                 <div className={styles.live_container}>
-                    <header-people style = {{marginBottom: 20}}>
+                    <header-people style={{marginBottom: 20}}>
                         <h2 className={styles.page_title}>Community</h2>
                         <div className={styles.people_tab}>
                             <ul style={{width: '100%'}}>

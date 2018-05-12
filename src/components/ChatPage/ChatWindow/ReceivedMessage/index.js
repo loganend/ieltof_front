@@ -24,7 +24,7 @@ export default class ReceivedMessage extends React.Component {
                         </div>
                         <div className={classNames({[styles.message_bubble_in_messages]: true})} >
                             <div>
-                                <span>Hi</span>
+                                <span>{this.props.text}</span>
                             </div>
                             <div className={classNames({[styles.btn_edit_on_message]: true})}>
                                 <span className="fa fa-pencil"></span>
